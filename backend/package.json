@@ -4,13 +4,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "bun run --watch src/index.ts",
-    "build": "bun build --compile --bytecode --minify --target bun --outfile build/wwww src/index.ts"
+    "build": "bun build --compile --bytecode --minify --target bun --outfile build/www src/index.ts"
   },
   "dependencies": {
+    "drizzle-orm": "^1.0.0-rc.4",
     "elysia": "latest"
   },
   "devDependencies": {
-    "bun-types": "latest"
+    "@types/bun": "^1.4.1",
+    "bun-types": "latest",
+    "drizzle-kit": "^1.0.0-rc.4"
   },
   "module": "src/index.js"
 }

@@ -21,4 +21,4 @@ WORKDIR /opt/machtia
 COPY --from=build /opt/machtia/build/www .
 
 EXPOSE 3000/tcp
-CMD [ "/opt/machtia/app" ]
+CMD [ "/opt/machtia/www" ]

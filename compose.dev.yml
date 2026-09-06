@@ -1,0 +1,18 @@
+services:
+  bucket:
+    image: ghcr.io/librefs/librefs:latest
+    network_mode: host
+    ports:
+      - 9000:9000
+      - 9001:9001
+    env_file: "bucket.env"
+    volumes:
+      - ./volumes/data:/data:Z
+    command: server /data --console-address :9001
+
+  database:
+    image: postgres:alpine
+    ports:
+      - 5432:5432
+    env_file: "database.env"
+    network_mode: host

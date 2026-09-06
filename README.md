@@ -5,6 +5,7 @@ Machtia is a self-hosted alternative for Google Classroom.
 ## Setup
 
 ### Requirements
+
 For minimal setup you require a Docker installation, and these are the technical requirements:
 
 - **Storage:** 1 GiB of disk storage, this is required for run all containers, but does not ensure storage for the bucket
@@ -20,11 +21,15 @@ For minimal setup you require a Docker installation, and these are the technical
 - Navigate to the project directory and run:
 
 ```sh
-docker compose up -d
+docker compose up -d # For production
+docker compose -f compose.dev.yml # For Development
 ```
-- The backend module is going to drop your admin credentials, take note of this.
+
+- **(production mode)** The backend module is going to drop your admin credentials, take note of this.
 - When the bucket and database service is up, you need to browse to `:9001` and setup a bucket and an access key, then you need to fill
   the `backend.env` file with your access key and id, then down the containers and re-up with:
+- **(development mode)** Now you can start the development server with: `bun dev`, do not use `database` 
+  as your database host, change it to `localhost`
 
 ```sh
 docker compose down && docker compose up -d
