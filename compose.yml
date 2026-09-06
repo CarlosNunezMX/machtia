@@ -1,0 +1,38 @@
+services:
+  bucket:
+    image: ghcr.io/librefs/librefs:latest
+    ports:
+          - 9000:9000
+          - 9001:9001
+    env_file: "bucket.env"
+    volumes:
+          - ./data:/data:Z
+    command: server /data --console-address :9001
+
+  database:
+    image: postgres:alpine
+    ports:
+      - 5432:5432
+    env_file: "database.env"
+    networks:
+      - machtia_network
+
+  backend:
+    depends_on:
+      - database
+      - bucket
+    build:
+      context: $PWD/backend
+      dockerfile: Dockerfile
+    env_file: "backend.env"
+    environment:
+          - BUCKET_URL:http://bucket:9000
+          - DATABASE_HOST:database
+    ports:
+      - 3000:3000
+    networks:
+      - machtia_network
+
+networks:
+  machtia_network:
+    driver: bridge
