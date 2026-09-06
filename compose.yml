@@ -6,7 +6,7 @@ services:
           - 9001:9001
     env_file: "bucket.env"
     volumes:
-          - ./data:/data:Z
+          - ./volumes/data:/data:Z
     command: server /data --console-address :9001
 
   database:

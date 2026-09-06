@@ -5,7 +5,6 @@ Machtia is a self-hosted alternative for Google Classroom.
 ## Setup
 
 ### Requirements
-
 For minimal setup you require a Docker installation, and these are the technical requirements:
 
 - **Storage:** 1 GiB of disk storage, this is required for run all containers, but does not ensure storage for the bucket
