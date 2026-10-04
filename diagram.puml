@@ -1,0 +1,259 @@
+@startuml
+
+left to right direction
+skinparam ranksep 500
+namespace ModelEntities {
+    class User {
+	    + uuid: string
+	    + name: string
+	    + email: string
+	    + password: string
+	    + type: "admin" | "teacher" | "student"
+	    + organizationUuid: string
+    }
+    class Assignment {
+	    + uuid: string
+	    + courseUuid: string
+	    + title: string
+	    + body: string
+	    + createdAt: Date
+	    + updatedAt: Date
+	    + dueAt: Date
+	    + attachments: Attachment[]
+	    + lateSubmissionsAllowed: boolean
+    }
+    class Attachment {
+	    + uuid: string
+	    + ownerUuid: string
+	    + courseUuid: string
+	    + assignmentUuid: string
+	    + file: string
+	    + name: string
+	    + mime: string
+    }
+    class Submission {
+	    + ownerUuid: string
+	    + courseUuid: string
+	    + assignmentUuid: stirng
+	    + grade: int
+	    + attachments: Attachment[]
+    }
+    class Course {
+	    + uuid: string
+	    + ownerUuid: string
+	    + name: string
+	    + description: string
+	    + schedule: CourseSchedule[]
+	    + startDate: Date
+	    + endDate: Date
+    }
+    class CourseSchedule {
+	    + courseUuid: string
+	    + uuid: string
+	    + start: string
+	    + end: string
+	    + weekdays: string
+	    + classroom: string
+    }
+    class Token {
+      + type: "session" | "verification" | "recovery"
+      + userUuid: string
+    }
+    Course *-- CourseSchedule
+    Submission *-- Attachment
+    Assignment *-- Attachment
+  }
+
+namespace ServiceLayer {
+  interface AuthService__SignInBody {
+    email: string
+    password: string
+    keepSigned: boolean
+  }
+  class AuthService {
+    - userRepo: IUserRepo
+    - jwtRepo: JwtRepo
+    - mailRepo: IMailRepo
+    - logger: Logger
+
+    + signIn(body: AuthService__SignInBody): Promise<Token>;
+    + signUp(body: User): Promise<Token>
+    + sendVerificationEmail(user: User): Promise<void>
+    + verifyEmail(user: User): Promise<User>
+    + sendRecoveryEmail(email: string): Promise<void>
+    + recoverPasswordBegin(user: User): Promise<Token>
+    + recoverPasswordEnd(user: User, newPassword: password): Promise<User>
+  }
+
+
+  class AssignmentService {
+    - assignmentRepo: IAssignmentRepo
+    - attachmentRepo: IAttachmentRepo
+    - courseRepo: ICourseRepo
+    - logger: Logger
+
+    + create(user: User, body: Omit<Assignment, "uuid">): Promise<Assignment>
+    + update(user: User, uuid: string, body: Omit<Assignment, "uuid">): Promise<Assignment>
+    + delete(user: User, uuid: string): Promise<void>
+
+    + get(user: User, uuid: string): Promise<Assignment>
+    + getByCourse(user: User, courseUuid: string): Promise<Assignment[]>
+    + getUnsubmitted(user: User): Promise<Assignment[]>
+  }
+
+  class CourseService {
+    - courseRepo: ICourseRepo
+    - courseScheduleRepo: ICScheduleRepo
+    - logger: Logger
+
+    + create(user: User,body: Omit<Course, "uuid">)
+    + delete(user: User, uuid: string): Promise<void>
+    + update(user: User, uuid: string, Omit<Course, "uuid">): Promise<Course>
+
+    + get(user: User, uuid: string): Promise<Course>
+    + getAll(user: User): Promise<Course[]>
+    + getSchedule(user: User): Promise<CourseSchedule[]>
+  }
+  class SubmissionService {
+    - attachmentRepo: IAssignmentRepo
+    - submissionRepo: ISubmissionRepo
+    - logger: Logger
+
+    + create(user: User, body: Omit<Submission, "uuid">): Promise<Submission>
+    + createFile(user: User, uuid: string, file: File): Promise<Submission>
+    + update(user: User, uuid: string, body: Omit<Submission, "uuid">): Promise<Submission>
+    + delete(user: User, uuid: string): Promise<void>
+    + deleteFile(user: User, fileUuid: string): Promise<void>
+
+    + get(user: User, uuid: string): Promise<void>
+    + getByCourse(user: User, courseUuid: string): Promise<Submission[]>
+    + getByUser(user: User, userUuid: string): Promise<Submission[]>
+    + getByAssignment(user: User, assignmentUuid: string): Promise<Submission[]>
+    + getAll(user: User): Promise<Submission[]>
+  }
+}
+
+namespace Infrastructure {
+  class Logger {
+    #configuration: LoggerInit
+    #writter(type: string, color: string): string
+    +info(...items: any[]): Logger
+    +log(...items: any[]): Logger
+    +error(...items: any[]): Logger
+    +success(...items: any[]): Logger
+  }
+
+  class DrizzleRepo {
+    # client: BunSQLDatabase
+  }
+
+  interface BucketProvider {
+    + file(path: string): Promise<Uint8Array>
+    + delete(path: string): Promise<void>
+    + write(path: string, body: Uint8Array): Promise<void>
+    + gracefulShutdown(): Promise<void>
+  }
+
+  class S3BucketProvider implements BucketProvider{
+    - client: S3Client
+    - logger: Logger
+    - static instance?: S3BucketProvider
+
+    + static getInstance(): Bucket | undefined
+    + static initialize(client: S3Client): S3BucketProvider 
+  }
+
+  interface IUserRepo {
+    + get(user: Partial<User>): Promise<User>
+    + getByUuid(uuid: string): Promise<User>
+    + getByEmail(uuid: string): Promise<User>
+    + getManyByUuid(uuids: string[]): Promise<User[]>
+    + getManyBy(request: Partial<User>[]): Promise<User[]>
+
+    + delete(uuid: string): Promise<void>
+    + deleteMany(uuids: string[]): Promise<void>
+
+    + update(uuid: string, body: Omit<Partial<User>, "uuid">): Promise<User>
+    + create(user: User): Promise<User>
+  }
+
+  class DrizzleUserRepo extends DrizzleRepo implements IUserRepo{}
+  class DrizzleCScheduleRepo extends DrizzleRepo implements ICScheduleRepo {}
+
+  class JwtRepo {
+    + sign(userUuid: string, type: typeof Token["type"]): Promise<string>
+    + decode(token: string): Promise<Token> 
+  }
+
+  interface IMailRepo {
+    + sendVerification(token: string, user: User): Promise<void>
+    + sendRecovery(token: string, user: User): Promise<void>
+  }
+
+  class ResendMailRepo implements IMailRepo {
+    - client: Resend
+  }
+
+
+  interface ICScheduleRepo {
+    get(uuid: string): Promise<CourseSchedule>
+    getManyByUuid(uuid: string[]): Promise<CourseSchedule[]>
+    getByCourse(courseUuid: string): Promise<CourseSchedule[]>
+
+    create(schedule:Schedule): Promise<CourseSchedule>
+    createMany(schedule: Schedule[]): Promise<CourseSchedule[]>
+
+    update(uuid: string, body: Omit<CourseSchedule, "uuid">): Promise<CourseSchedule>
+    updateMany(body: (Partial<CourseSchedule> & {uuid: string})[]): Promise<CourseSchedule[]>
+
+    deleteByCourse(courseUuid: string): Promise<void>
+    delete(uuid: string): Promise<void>
+    deleteMany(uuid: string[]): Promise<void>
+  }
+
+  interface IAttachmentRepo {
+    + create(body: Attachment, files: File): Promise<Attachment>
+    + delete(uuid: string): Promise<void>
+    + get(uuid: string): Promise<Attachment>
+  }
+
+  class DrizzleAttachmentRepo extends DrizzleRepo implements IAttachmentRepo {
+    - bucketClient: BucketProvider
+  }
+
+
+  interface ISubmissionRepo {
+    create(body: Submission): Promise<Submission>
+    delete(uuid: string): Promise<void>
+    edit(uuid: string, body: Partial<Omit<Submission, "uuid">): Promise<void>
+    get(uuid: string): Promise<Submission>
+    getByCourse(uuid: string): Promise<Submission[]>
+    getByAssignment(uuid: string): Promise<Submission[]>
+    getByUser(uuid: string): Promise<Submission[]>
+  }
+
+  class DrizzleSubmissionRepo extends DrizzleRepo implements ISubmissionRepo {}
+}
+  Logger --* S3BucketProvider
+  Logger --* AuthService
+  Logger --* CourseService
+  Logger --* AssignmentService
+  Logger --* SubmissionService
+
+  BucketProvider --o DrizzleAttachmentRepo
+  IMailRepo --o AuthService
+  JwtRepo --o AuthService
+
+  ICourseRepo --* SubmissionService
+  IAttachmentRepo --* SubmissionService
+  ISubmissionRepo --* SubmissionService
+
+  ICourseRepo --* CourseService
+  ICScheduleRepo --* CourseService
+
+
+  ICourseRepo --* AssignmentService
+  IAttachmentRepo --* AssignmentService
+  IAssignmentRepo --* AssignmentService
+
+@enduml

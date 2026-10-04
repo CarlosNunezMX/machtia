@@ -1,23 +1,24 @@
-import { Elysia } from "elysia";
-import { gracefulShutdownDatabase, waitConnection } from "providers/database";
+import { gracefulShutdownDatabase } from "@providers/database.drizzle";
+import { MainRouter } from "@routers/router";
+import { Server } from "@/server";
+import Logger from "@logging";
+import Bucket from "@bucket";
 
-const app = new Elysia()
-  .get("/", () => "Hello Elysia");
+// @ts-ignore
+const server = new Server(3000, MainRouter);
+const logger = Logger.as("application");
 
 const onGraceful = async (event: string) => {
-  app.stop(true);
-  console.log("[Graceful Shutdown]: Closing all connections...");
+  server.close();
+  logger.log("Graceful Shutdown, closing all connections...");
   await gracefulShutdownDatabase();
-  console.log("[Graceful Shutdown]: Exited successfully!");
+  await Bucket.gracefulShutdown();
+  logger.success("Graceful Shutdown, exited successfully!");
   process.exit(0);
 };
 
 async function main() {
-  await waitConnection();
-  app.listen(3000);
-  console.log(
-    `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`,
-  );
+  server.listen();
   process.on("SIGTERM", onGraceful);
   process.on("SIGINT", onGraceful);
   process.on("SIGKILL", onGraceful);
