@@ -1,0 +1,93 @@
+// use prisma-8
+model User {
+  uuid            Uuid               @id @unique @onCreate(uuid())
+  email           String             @unique
+  name            String
+  password        String
+  organizationId  String?
+  verified        Boolean            @default(false)
+  type        String             @default("Student")
+
+  courses         Course[]
+  attachments     Attachment[]
+  enrolledCourses CourseEnrollemnt[]
+  submissions     Submission[]
+}
+
+model Assignment {
+  uuid            Uuid         @id @unique @onCreate(uuid())
+  courseUuid      Uuid
+  title           String
+  body            String
+  dueAt           DateTime?
+  lateSubmissions Boolean      @default(false)
+
+  createdAt       DateTime     @onCreate(now())
+  updatedAt       DateTime     @onUpdate(now())
+
+  course          Course       @relation(fields: [courseUuid], references: [uuid], onDelete: Cascade)
+  submissions     Submission[]
+}
+
+model Course {
+  uuid        Uuid         @id @unique @onCreate(uuid())
+  ownerUuid   Uuid
+  name        String
+  description String
+  startDate   Date
+  endDate     Date
+
+  createdAt   DateTime     @onCreate(now())
+  updatedAt   DateTime     @onUpdate(now())
+
+  owner       User         @relation(fields: [ownerUuid], references: [uuid], onDelete: Cascade)
+
+  assignments Assignment[]
+  submissions Submission[]
+}
+
+model Submission {
+  uuid           Uuid       @id @unique @onCreate(uuid())
+  ownerUuid      Uuid
+  courseUuid     Uuid
+  assignmentUuid Uuid
+
+  grade          Real?
+
+  createdAt      DateTime   @onCreate(now())
+  updatedAt      DateTime   @onUpdate(now())
+
+  owner          User       @relation(fields: [ownerUuid], references: [uuid], onDelete: Cascade)
+  course         Course     @relation(fields: [courseUuid], references: [uuid], onDelete: Cascade)
+  assignment     Assignment @relation(fields: [assignmentUuid], references: [uuid], onDelete: Cascade)
+
+  attachments Attachment[]
+}
+
+model CourseEnrollemnt {
+  uuid       Uuid     @id @unique @onCreate(uuid())
+  userUuid   Uuid
+  courseUuid Uuid
+  status     Boolean  @default(true)
+
+  createdAt  DateTime @onCreate(now())
+  updatedAt  DateTime @onUpdate(now())
+
+  user       User     @relation(fields: [userUuid], references: [uuid], onDelete: Cascade)
+  course     Course   @relation(fields: [courseUuid], references: [uuid], onDelete: Cascade)
+}
+
+model Attachment {
+  uuid           Uuid       @id @unique @onCreate(uuid())
+  ownerUuid      Uuid
+  submissionUuid Uuid
+
+  file           String
+  name           String
+  mime           String
+
+  createdAt      DateTime   @onCreate(now())
+
+  owner          User       @relation(fields: [ownerUuid], references: [uuid], onDelete: Cascade)
+  submission     Submission @relation(fields: [submissionUuid], references: [uuid], onDelete: Cascade)
+}

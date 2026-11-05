@@ -1,0 +1,1718 @@
+{
+  "schemaVersion": "1",
+  "targetFamily": "sql",
+  "target": "postgres",
+  "profileHash": "3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2",
+  "roots": {
+    "Assignment": {
+      "model": "Assignment",
+      "namespace": "public"
+    },
+    "Attachment": {
+      "model": "Attachment",
+      "namespace": "public"
+    },
+    "Course": {
+      "model": "Course",
+      "namespace": "public"
+    },
+    "CourseEnrollemnt": {
+      "model": "CourseEnrollemnt",
+      "namespace": "public"
+    },
+    "Submission": {
+      "model": "Submission",
+      "namespace": "public"
+    },
+    "User": {
+      "model": "User",
+      "namespace": "public"
+    }
+  },
+  "domain": {
+    "namespaces": {
+      "public": {
+        "models": {
+          "Assignment": {
+            "fields": {
+              "body": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "courseUuid": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/uuid@1",
+                  "kind": "scalar"
+                }
+              },
+              "createdAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 3
+                  }
+                }
+              },
+              "dueAt": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 3
+                  }
+                }
+              },
+              "lateSubmissions": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/bool@1",
+                  "kind": "scalar"
+                }
+              },
+              "title": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "updatedAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 3
+                  }
+                }
+              },
+              "uuid": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/uuid@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "course": {
+                "cardinality": "N:1",
+                "nullable": false,
+                "on": {
+                  "localFields": [
+                    "courseUuid"
+                  ],
+                  "targetFields": [
+                    "uuid"
+                  ]
+                },
+                "to": {
+                  "model": "Course",
+                  "namespace": "public"
+                }
+              },
+              "submissions": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "uuid"
+                  ],
+                  "targetFields": [
+                    "assignmentUuid"
+                  ]
+                },
+                "to": {
+                  "model": "Submission",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "body": {
+                  "column": "body"
+                },
+                "courseUuid": {
+                  "column": "courseUuid"
+                },
+                "createdAt": {
+                  "column": "createdAt"
+                },
+                "dueAt": {
+                  "column": "dueAt"
+                },
+                "lateSubmissions": {
+                  "column": "lateSubmissions"
+                },
+                "title": {
+                  "column": "title"
+                },
+                "updatedAt": {
+                  "column": "updatedAt"
+                },
+                "uuid": {
+                  "column": "uuid"
+                }
+              },
+              "namespaceId": "public",
+              "table": "Assignment"
+            }
+          },
+          "Attachment": {
+            "fields": {
+              "createdAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 3
+                  }
+                }
+              },
+              "file": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "mime": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "name": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "ownerUuid": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/uuid@1",
+                  "kind": "scalar"
+                }
+              },
+              "submissionUuid": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/uuid@1",
+                  "kind": "scalar"
+                }
+              },
+              "uuid": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/uuid@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "owner": {
+                "cardinality": "N:1",
+                "nullable": false,
+                "on": {
+                  "localFields": [
+                    "ownerUuid"
+                  ],
+                  "targetFields": [
+                    "uuid"
+                  ]
+                },
+                "to": {
+                  "model": "User",
+                  "namespace": "public"
+                }
+              },
+              "submission": {
+                "cardinality": "N:1",
+                "nullable": false,
+                "on": {
+                  "localFields": [
+                    "submissionUuid"
+                  ],
+                  "targetFields": [
+                    "uuid"
+                  ]
+                },
+                "to": {
+                  "model": "Submission",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "createdAt": {
+                  "column": "createdAt"
+                },
+                "file": {
+                  "column": "file"
+                },
+                "mime": {
+                  "column": "mime"
+                },
+                "name": {
+                  "column": "name"
+                },
+                "ownerUuid": {
+                  "column": "ownerUuid"
+                },
+                "submissionUuid": {
+                  "column": "submissionUuid"
+                },
+                "uuid": {
+                  "column": "uuid"
+                }
+              },
+              "namespaceId": "public",
+              "table": "Attachment"
+            }
+          },
+          "Course": {
+            "fields": {
+              "createdAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 3
+                  }
+                }
+              },
+              "description": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "endDate": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/date-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "name": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "ownerUuid": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/uuid@1",
+                  "kind": "scalar"
+                }
+              },
+              "startDate": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/date-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "updatedAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 3
+                  }
+                }
+              },
+              "uuid": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/uuid@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "assignments": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "uuid"
+                  ],
+                  "targetFields": [
+                    "courseUuid"
+                  ]
+                },
+                "to": {
+                  "model": "Assignment",
+                  "namespace": "public"
+                }
+              },
+              "owner": {
+                "cardinality": "N:1",
+                "nullable": false,
+                "on": {
+                  "localFields": [
+                    "ownerUuid"
+                  ],
+                  "targetFields": [
+                    "uuid"
+                  ]
+                },
+                "to": {
+                  "model": "User",
+                  "namespace": "public"
+                }
+              },
+              "submissions": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "uuid"
+                  ],
+                  "targetFields": [
+                    "courseUuid"
+                  ]
+                },
+                "to": {
+                  "model": "Submission",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "createdAt": {
+                  "column": "createdAt"
+                },
+                "description": {
+                  "column": "description"
+                },
+                "endDate": {
+                  "column": "endDate"
+                },
+                "name": {
+                  "column": "name"
+                },
+                "ownerUuid": {
+                  "column": "ownerUuid"
+                },
+                "startDate": {
+                  "column": "startDate"
+                },
+                "updatedAt": {
+                  "column": "updatedAt"
+                },
+                "uuid": {
+                  "column": "uuid"
+                }
+              },
+              "namespaceId": "public",
+              "table": "Course"
+            }
+          },
+          "CourseEnrollemnt": {
+            "fields": {
+              "courseUuid": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/uuid@1",
+                  "kind": "scalar"
+                }
+              },
+              "createdAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 3
+                  }
+                }
+              },
+              "status": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/bool@1",
+                  "kind": "scalar"
+                }
+              },
+              "updatedAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 3
+                  }
+                }
+              },
+              "userUuid": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/uuid@1",
+                  "kind": "scalar"
+                }
+              },
+              "uuid": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/uuid@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "course": {
+                "cardinality": "N:1",
+                "nullable": false,
+                "on": {
+                  "localFields": [
+                    "courseUuid"
+                  ],
+                  "targetFields": [
+                    "uuid"
+                  ]
+                },
+                "to": {
+                  "model": "Course",
+                  "namespace": "public"
+                }
+              },
+              "user": {
+                "cardinality": "N:1",
+                "nullable": false,
+                "on": {
+                  "localFields": [
+                    "userUuid"
+                  ],
+                  "targetFields": [
+                    "uuid"
+                  ]
+                },
+                "to": {
+                  "model": "User",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "courseUuid": {
+                  "column": "courseUuid"
+                },
+                "createdAt": {
+                  "column": "createdAt"
+                },
+                "status": {
+                  "column": "status"
+                },
+                "updatedAt": {
+                  "column": "updatedAt"
+                },
+                "userUuid": {
+                  "column": "userUuid"
+                },
+                "uuid": {
+                  "column": "uuid"
+                }
+              },
+              "namespaceId": "public",
+              "table": "CourseEnrollemnt"
+            }
+          },
+          "Submission": {
+            "fields": {
+              "assignmentUuid": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/uuid@1",
+                  "kind": "scalar"
+                }
+              },
+              "courseUuid": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/uuid@1",
+                  "kind": "scalar"
+                }
+              },
+              "createdAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 3
+                  }
+                }
+              },
+              "grade": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/float4@1",
+                  "kind": "scalar"
+                }
+              },
+              "ownerUuid": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/uuid@1",
+                  "kind": "scalar"
+                }
+              },
+              "updatedAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 3
+                  }
+                }
+              },
+              "uuid": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/uuid@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "assignment": {
+                "cardinality": "N:1",
+                "nullable": false,
+                "on": {
+                  "localFields": [
+                    "assignmentUuid"
+                  ],
+                  "targetFields": [
+                    "uuid"
+                  ]
+                },
+                "to": {
+                  "model": "Assignment",
+                  "namespace": "public"
+                }
+              },
+              "attachments": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "uuid"
+                  ],
+                  "targetFields": [
+                    "submissionUuid"
+                  ]
+                },
+                "to": {
+                  "model": "Attachment",
+                  "namespace": "public"
+                }
+              },
+              "course": {
+                "cardinality": "N:1",
+                "nullable": false,
+                "on": {
+                  "localFields": [
+                    "courseUuid"
+                  ],
+                  "targetFields": [
+                    "uuid"
+                  ]
+                },
+                "to": {
+                  "model": "Course",
+                  "namespace": "public"
+                }
+              },
+              "owner": {
+                "cardinality": "N:1",
+                "nullable": false,
+                "on": {
+                  "localFields": [
+                    "ownerUuid"
+                  ],
+                  "targetFields": [
+                    "uuid"
+                  ]
+                },
+                "to": {
+                  "model": "User",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "assignmentUuid": {
+                  "column": "assignmentUuid"
+                },
+                "courseUuid": {
+                  "column": "courseUuid"
+                },
+                "createdAt": {
+                  "column": "createdAt"
+                },
+                "grade": {
+                  "column": "grade"
+                },
+                "ownerUuid": {
+                  "column": "ownerUuid"
+                },
+                "updatedAt": {
+                  "column": "updatedAt"
+                },
+                "uuid": {
+                  "column": "uuid"
+                }
+              },
+              "namespaceId": "public",
+              "table": "Submission"
+            }
+          },
+          "User": {
+            "fields": {
+              "email": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "name": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "organizationId": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "password": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "userType": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "uuid": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/uuid@1",
+                  "kind": "scalar"
+                }
+              },
+              "verified": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/bool@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "attachments": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "uuid"
+                  ],
+                  "targetFields": [
+                    "ownerUuid"
+                  ]
+                },
+                "to": {
+                  "model": "Attachment",
+                  "namespace": "public"
+                }
+              },
+              "courses": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "uuid"
+                  ],
+                  "targetFields": [
+                    "ownerUuid"
+                  ]
+                },
+                "to": {
+                  "model": "Course",
+                  "namespace": "public"
+                }
+              },
+              "enrolledCourses": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "uuid"
+                  ],
+                  "targetFields": [
+                    "userUuid"
+                  ]
+                },
+                "to": {
+                  "model": "CourseEnrollemnt",
+                  "namespace": "public"
+                }
+              },
+              "submissions": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "uuid"
+                  ],
+                  "targetFields": [
+                    "ownerUuid"
+                  ]
+                },
+                "to": {
+                  "model": "Submission",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "email": {
+                  "column": "email"
+                },
+                "name": {
+                  "column": "name"
+                },
+                "organizationId": {
+                  "column": "organizationId"
+                },
+                "password": {
+                  "column": "password"
+                },
+                "userType": {
+                  "column": "userType"
+                },
+                "uuid": {
+                  "column": "uuid"
+                },
+                "verified": {
+                  "column": "verified"
+                }
+              },
+              "namespaceId": "public",
+              "table": "User"
+            }
+          }
+        }
+      }
+    }
+  },
+  "storage": {
+    "namespaces": {
+      "public": {
+        "entries": {
+          "table": {
+            "Assignment": {
+              "columns": {
+                "body": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "courseUuid": {
+                  "codecId": "pg/uuid@1",
+                  "dataType": "pg/uuid",
+                  "nullable": false
+                },
+                "createdAt": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "dataType": "pg/timestamptz",
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 3
+                  }
+                },
+                "dueAt": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "dataType": "pg/timestamptz",
+                  "nullable": true,
+                  "typeParams": {
+                    "precision": 3
+                  }
+                },
+                "lateSubmissions": {
+                  "codecId": "pg/bool@1",
+                  "dataType": "pg/bool",
+                  "default": {
+                    "kind": "literal",
+                    "value": false
+                  },
+                  "nullable": false
+                },
+                "title": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "updatedAt": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "dataType": "pg/timestamptz",
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 3
+                  }
+                },
+                "uuid": {
+                  "codecId": "pg/uuid@1",
+                  "dataType": "pg/uuid",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "index": {
+                    "name": "Assignment_courseUuid_idx_3d706a22"
+                  },
+                  "onDelete": "cascade",
+                  "source": {
+                    "columns": [
+                      "courseUuid"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "Assignment"
+                  },
+                  "target": {
+                    "columns": [
+                      "uuid"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "Course"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "courseUuid"
+                  ],
+                  "name": "Assignment_courseUuid_idx_3d706a22",
+                  "prefix": "Assignment_courseUuid_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "uuid"
+                ]
+              },
+              "uniques": [
+                {
+                  "columns": [
+                    "uuid"
+                  ]
+                }
+              ]
+            },
+            "Attachment": {
+              "columns": {
+                "createdAt": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "dataType": "pg/timestamptz",
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 3
+                  }
+                },
+                "file": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "mime": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "name": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "ownerUuid": {
+                  "codecId": "pg/uuid@1",
+                  "dataType": "pg/uuid",
+                  "nullable": false
+                },
+                "submissionUuid": {
+                  "codecId": "pg/uuid@1",
+                  "dataType": "pg/uuid",
+                  "nullable": false
+                },
+                "uuid": {
+                  "codecId": "pg/uuid@1",
+                  "dataType": "pg/uuid",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "index": {
+                    "name": "Attachment_ownerUuid_idx_74221b0d"
+                  },
+                  "onDelete": "cascade",
+                  "source": {
+                    "columns": [
+                      "ownerUuid"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "Attachment"
+                  },
+                  "target": {
+                    "columns": [
+                      "uuid"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "User"
+                  }
+                },
+                {
+                  "index": {
+                    "name": "Attachment_submissionUuid_idx_07a90ca3"
+                  },
+                  "onDelete": "cascade",
+                  "source": {
+                    "columns": [
+                      "submissionUuid"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "Attachment"
+                  },
+                  "target": {
+                    "columns": [
+                      "uuid"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "Submission"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "ownerUuid"
+                  ],
+                  "name": "Attachment_ownerUuid_idx_74221b0d",
+                  "prefix": "Attachment_ownerUuid_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "submissionUuid"
+                  ],
+                  "name": "Attachment_submissionUuid_idx_07a90ca3",
+                  "prefix": "Attachment_submissionUuid_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "uuid"
+                ]
+              },
+              "uniques": [
+                {
+                  "columns": [
+                    "uuid"
+                  ]
+                }
+              ]
+            },
+            "Course": {
+              "columns": {
+                "createdAt": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "dataType": "pg/timestamptz",
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 3
+                  }
+                },
+                "description": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "endDate": {
+                  "codecId": "pg/date-string@1",
+                  "dataType": "pg/date",
+                  "nullable": false
+                },
+                "name": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "ownerUuid": {
+                  "codecId": "pg/uuid@1",
+                  "dataType": "pg/uuid",
+                  "nullable": false
+                },
+                "startDate": {
+                  "codecId": "pg/date-string@1",
+                  "dataType": "pg/date",
+                  "nullable": false
+                },
+                "updatedAt": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "dataType": "pg/timestamptz",
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 3
+                  }
+                },
+                "uuid": {
+                  "codecId": "pg/uuid@1",
+                  "dataType": "pg/uuid",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "index": {
+                    "name": "Course_ownerUuid_idx_74221b0d"
+                  },
+                  "onDelete": "cascade",
+                  "source": {
+                    "columns": [
+                      "ownerUuid"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "Course"
+                  },
+                  "target": {
+                    "columns": [
+                      "uuid"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "User"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "ownerUuid"
+                  ],
+                  "name": "Course_ownerUuid_idx_74221b0d",
+                  "prefix": "Course_ownerUuid_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "uuid"
+                ]
+              },
+              "uniques": [
+                {
+                  "columns": [
+                    "uuid"
+                  ]
+                }
+              ]
+            },
+            "CourseEnrollemnt": {
+              "columns": {
+                "courseUuid": {
+                  "codecId": "pg/uuid@1",
+                  "dataType": "pg/uuid",
+                  "nullable": false
+                },
+                "createdAt": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "dataType": "pg/timestamptz",
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 3
+                  }
+                },
+                "status": {
+                  "codecId": "pg/bool@1",
+                  "dataType": "pg/bool",
+                  "default": {
+                    "kind": "literal",
+                    "value": true
+                  },
+                  "nullable": false
+                },
+                "updatedAt": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "dataType": "pg/timestamptz",
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 3
+                  }
+                },
+                "userUuid": {
+                  "codecId": "pg/uuid@1",
+                  "dataType": "pg/uuid",
+                  "nullable": false
+                },
+                "uuid": {
+                  "codecId": "pg/uuid@1",
+                  "dataType": "pg/uuid",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "index": {
+                    "name": "CourseEnrollemnt_userUuid_idx_d8ac540b"
+                  },
+                  "onDelete": "cascade",
+                  "source": {
+                    "columns": [
+                      "userUuid"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "CourseEnrollemnt"
+                  },
+                  "target": {
+                    "columns": [
+                      "uuid"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "User"
+                  }
+                },
+                {
+                  "index": {
+                    "name": "CourseEnrollemnt_courseUuid_idx_3d706a22"
+                  },
+                  "onDelete": "cascade",
+                  "source": {
+                    "columns": [
+                      "courseUuid"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "CourseEnrollemnt"
+                  },
+                  "target": {
+                    "columns": [
+                      "uuid"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "Course"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "courseUuid"
+                  ],
+                  "name": "CourseEnrollemnt_courseUuid_idx_3d706a22",
+                  "prefix": "CourseEnrollemnt_courseUuid_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "userUuid"
+                  ],
+                  "name": "CourseEnrollemnt_userUuid_idx_d8ac540b",
+                  "prefix": "CourseEnrollemnt_userUuid_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "uuid"
+                ]
+              },
+              "uniques": [
+                {
+                  "columns": [
+                    "uuid"
+                  ]
+                }
+              ]
+            },
+            "Submission": {
+              "columns": {
+                "assignmentUuid": {
+                  "codecId": "pg/uuid@1",
+                  "dataType": "pg/uuid",
+                  "nullable": false
+                },
+                "courseUuid": {
+                  "codecId": "pg/uuid@1",
+                  "dataType": "pg/uuid",
+                  "nullable": false
+                },
+                "createdAt": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "dataType": "pg/timestamptz",
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 3
+                  }
+                },
+                "grade": {
+                  "codecId": "pg/float4@1",
+                  "dataType": "pg/float4",
+                  "nullable": true
+                },
+                "ownerUuid": {
+                  "codecId": "pg/uuid@1",
+                  "dataType": "pg/uuid",
+                  "nullable": false
+                },
+                "updatedAt": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "dataType": "pg/timestamptz",
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 3
+                  }
+                },
+                "uuid": {
+                  "codecId": "pg/uuid@1",
+                  "dataType": "pg/uuid",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "index": {
+                    "name": "Submission_ownerUuid_idx_74221b0d"
+                  },
+                  "onDelete": "cascade",
+                  "source": {
+                    "columns": [
+                      "ownerUuid"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "Submission"
+                  },
+                  "target": {
+                    "columns": [
+                      "uuid"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "User"
+                  }
+                },
+                {
+                  "index": {
+                    "name": "Submission_courseUuid_idx_3d706a22"
+                  },
+                  "onDelete": "cascade",
+                  "source": {
+                    "columns": [
+                      "courseUuid"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "Submission"
+                  },
+                  "target": {
+                    "columns": [
+                      "uuid"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "Course"
+                  }
+                },
+                {
+                  "index": {
+                    "name": "Submission_assignmentUuid_idx_ebcbea95"
+                  },
+                  "onDelete": "cascade",
+                  "source": {
+                    "columns": [
+                      "assignmentUuid"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "Submission"
+                  },
+                  "target": {
+                    "columns": [
+                      "uuid"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "Assignment"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "assignmentUuid"
+                  ],
+                  "name": "Submission_assignmentUuid_idx_ebcbea95",
+                  "prefix": "Submission_assignmentUuid_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "courseUuid"
+                  ],
+                  "name": "Submission_courseUuid_idx_3d706a22",
+                  "prefix": "Submission_courseUuid_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "ownerUuid"
+                  ],
+                  "name": "Submission_ownerUuid_idx_74221b0d",
+                  "prefix": "Submission_ownerUuid_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "uuid"
+                ]
+              },
+              "uniques": [
+                {
+                  "columns": [
+                    "uuid"
+                  ]
+                }
+              ]
+            },
+            "User": {
+              "columns": {
+                "email": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "name": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "organizationId": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": true
+                },
+                "password": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "userType": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "default": {
+                    "kind": "literal",
+                    "value": "Student"
+                  },
+                  "nullable": false
+                },
+                "uuid": {
+                  "codecId": "pg/uuid@1",
+                  "dataType": "pg/uuid",
+                  "nullable": false
+                },
+                "verified": {
+                  "codecId": "pg/bool@1",
+                  "dataType": "pg/bool",
+                  "default": {
+                    "kind": "literal",
+                    "value": false
+                  },
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [],
+              "indexes": [],
+              "primaryKey": {
+                "columns": [
+                  "uuid"
+                ]
+              },
+              "uniques": [
+                {
+                  "columns": [
+                    "uuid"
+                  ]
+                },
+                {
+                  "columns": [
+                    "email"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "id": "public",
+        "kind": "postgres-schema"
+      }
+    },
+    "storageHash": "3235288aeea3ada5c241d440c9a24fd871fabb3d7bab40676f6d23aa6cffff33"
+  },
+  "execution": {
+    "executionHash": "e278eb454eb967e0cece4aa5e543eb8f0cb4f1a1007981bb1efa44a493998956",
+    "mutations": {
+      "defaults": [
+        {
+          "onCreate": {
+            "id": "timestampNow",
+            "kind": "generator",
+            "params": {
+              "precision": 3
+            }
+          },
+          "ref": {
+            "entry": "Assignment",
+            "field": "createdAt",
+            "namespace": "public"
+          }
+        },
+        {
+          "onUpdate": {
+            "id": "timestampNow",
+            "kind": "generator",
+            "params": {
+              "precision": 3
+            }
+          },
+          "ref": {
+            "entry": "Assignment",
+            "field": "updatedAt",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "uuidv4",
+            "kind": "generator"
+          },
+          "ref": {
+            "entry": "Assignment",
+            "field": "uuid",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "timestampNow",
+            "kind": "generator",
+            "params": {
+              "precision": 3
+            }
+          },
+          "ref": {
+            "entry": "Attachment",
+            "field": "createdAt",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "uuidv4",
+            "kind": "generator"
+          },
+          "ref": {
+            "entry": "Attachment",
+            "field": "uuid",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "timestampNow",
+            "kind": "generator",
+            "params": {
+              "precision": 3
+            }
+          },
+          "ref": {
+            "entry": "Course",
+            "field": "createdAt",
+            "namespace": "public"
+          }
+        },
+        {
+          "onUpdate": {
+            "id": "timestampNow",
+            "kind": "generator",
+            "params": {
+              "precision": 3
+            }
+          },
+          "ref": {
+            "entry": "Course",
+            "field": "updatedAt",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "uuidv4",
+            "kind": "generator"
+          },
+          "ref": {
+            "entry": "Course",
+            "field": "uuid",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "timestampNow",
+            "kind": "generator",
+            "params": {
+              "precision": 3
+            }
+          },
+          "ref": {
+            "entry": "CourseEnrollemnt",
+            "field": "createdAt",
+            "namespace": "public"
+          }
+        },
+        {
+          "onUpdate": {
+            "id": "timestampNow",
+            "kind": "generator",
+            "params": {
+              "precision": 3
+            }
+          },
+          "ref": {
+            "entry": "CourseEnrollemnt",
+            "field": "updatedAt",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "uuidv4",
+            "kind": "generator"
+          },
+          "ref": {
+            "entry": "CourseEnrollemnt",
+            "field": "uuid",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "timestampNow",
+            "kind": "generator",
+            "params": {
+              "precision": 3
+            }
+          },
+          "ref": {
+            "entry": "Submission",
+            "field": "createdAt",
+            "namespace": "public"
+          }
+        },
+        {
+          "onUpdate": {
+            "id": "timestampNow",
+            "kind": "generator",
+            "params": {
+              "precision": 3
+            }
+          },
+          "ref": {
+            "entry": "Submission",
+            "field": "updatedAt",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "uuidv4",
+            "kind": "generator"
+          },
+          "ref": {
+            "entry": "Submission",
+            "field": "uuid",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "uuidv4",
+            "kind": "generator"
+          },
+          "ref": {
+            "entry": "User",
+            "field": "uuid",
+            "namespace": "public"
+          }
+        }
+      ]
+    }
+  },
+  "capabilities": {
+    "postgres": {
+      "distinctOn": true,
+      "forKeyShare": true,
+      "forNoKeyUpdate": true,
+      "jsonAgg": true,
+      "lateral": true,
+      "limit": true,
+      "orderBy": true,
+      "returning": true
+    },
+    "sql": {
+      "checkConstraint": true,
+      "defaultInInsert": true,
+      "enums": true,
+      "forShare": true,
+      "forUpdate": true,
+      "insertOnConflictSkip": true,
+      "insertOnConflictWithoutTarget": true,
+      "lateral": true,
+      "lockNowait": true,
+      "lockOf": true,
+      "lockSkipLocked": true,
+      "returning": true,
+      "scalarList": true
+    }
+  },
+  "extensions": {},
+  "meta": {},
+  "_generated": {
+    "warning": "⚠️  GENERATED FILE - DO NOT EDIT",
+    "message": "This file is automatically generated by \"prisma contract emit\".",
+    "regenerate": "To regenerate, run: prisma contract emit"
+  }
+}

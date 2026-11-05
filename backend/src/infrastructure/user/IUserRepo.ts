@@ -7,11 +7,10 @@ export interface IUserRepo {
   getByUuid(uuid: string): Promise<User>;
   getByEmail(email: string): Promise<User>;
   getManyByUuid(uuid: string[]): Promise<User[]>;
-  getManyBy(params: IUserRepo__ByRequest[]): Promise<User[]>;
 
   delete(uuid: string): Promise<void>;
-  deleteMany(uuid: string): Promise<void>;
+  deleteMany(uuid: string[]): Promise<void>;
 
-  update(uuid: string, body: Partial<Omit<User, "uuid">>): Promise<User>;
+  update(body: Partial<User> & {uuid: string}): Promise<User>;
   create(body: User): Promise<User>;
 }
