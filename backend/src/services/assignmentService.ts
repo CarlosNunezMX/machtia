@@ -1,12 +1,23 @@
+import Logger from "@/logging";
+import { Course } from "@/models/course";
+import { User } from "@/models/user";
+
+// AI Slop detected?
+// @todo: Review this code and fix it
 
 export class AssignmentService {
-  private assignmentRepo: IAssignmentRepo
-  private attachmentRepo: IAttachmentRepo
-  private courseRepo: ICourseRepo
-  private logger: Logger
+  constructor(
+    private assignmentRepo: IAssignmentRepo,
+    private attachmentRepo: IAttachmentRepo,
+    private courseRepo: ICourseRepo,
+    private logger: Logger,
+  ) {}
 
   // Helper functions
-  private async assertCanManageCourse(user: User, courseUuid: string): Promise<Course> {
+  private async assertCanManageCourse(
+    user: User,
+    courseUuid: string,
+  ): Promise<Course> {
     const course = await this.courseRepo.get(courseUuid);
 
     if (!course) {
@@ -24,7 +35,10 @@ export class AssignmentService {
     return course;
   }
 
-  private async assertCanManageAssignment(user: User, assignmentUuid: string): Promise<Assignment> {
+  private async assertCanManageAssignment(
+    user: User,
+    assignmentUuid: string,
+  ): Promise<Assignment> {
     const assignment = await this.assignmentRepo.get(assignmentUuid);
 
     if (!assignment) {
@@ -36,7 +50,10 @@ export class AssignmentService {
   }
 
   // CRUD design functions
-  async create(user: User, body: Omit<Assignment, "uuid">): Promise<Assignment> {
+  async create(
+    user: User,
+    body: Omit<Assignment, "uuid">,
+  ): Promise<Assignment> {
     const course = await this.assertCanManageCourse(user, body.courseUuid);
 
     if (new Date(body.dueAt) < new Date()) {
@@ -52,22 +69,23 @@ export class AssignmentService {
     return assignment;
   }
 
-  async update(user: User, uuid: string, body: Omit<Assignment, "uuid">): Promise<Assignment> {
+  async update(
+    user: User,
+    uuid: string,
+    body: Omit<Assignment, "uuid">,
+  ): Promise<Assignment> {
     const assignment = await this.assertCanManageAssignment(user, uuid);
 
     if (body.courseUuid !== assignment.courseUuid) {
-     throw new Error("Cannot move assignment to another course");
+      throw new Error("Cannot move assignment to another course");
     }
 
-    const updated = await this.assignmentRepo.update(
-     uuid,
-     {
-       title: body.title,
-       body: body.body,
-       dueAt: body.dueAt,
-       lateSubmissionsAllowed: body.lateSubmissionsAllowed,
-     },
-    );
+    const updated = await this.assignmentRepo.update(uuid, {
+      title: body.title,
+      body: body.body,
+      dueAt: body.dueAt,
+      lateSubmissionsAllowed: body.lateSubmissionsAllowed,
+    });
 
     this.logger.log(`Assignment updated: ${uuid}`);
     return updated;
