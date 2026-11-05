@@ -1,6 +1,9 @@
-import Logger from "@/logging";
-import { Course } from "@/models/course";
-import { User } from "@/models/user";
+// temporal routing
+import Logger from "../logging";
+import { Course } from "../models/course";
+import { User } from "../models/user";
+import { Assignment } from "../models/assignment";
+import { Attachment } from "../models/attachment";
 
 // AI Slop detected?
 // @todo: Review this code and fix it
@@ -24,11 +27,9 @@ export class AssignmentService {
       throw new Error("Course not found");
     }
 
-    if (course.organizationUuid !== user.organizationUuid) {
-      throw new Error("Unauthorized");
-    }
+    const isUserOwner = course.ownerUuid === user.uuid;
 
-    if (user.type !== "admin" && course.ownerUuid !== user.uuid) {
+    if (user.type !== "Admin" && !isUserOwner) {
       throw new Error("Unauthorized");
     }
 
@@ -49,7 +50,7 @@ export class AssignmentService {
     return assignment;
   }
 
-  // CRUD design functions
+  // CRUD functions
   async create(
     user: User,
     body: Omit<Assignment, "uuid">,
@@ -112,13 +113,9 @@ export class AssignmentService {
     }
 
     const course = await this.courseRepo.get(assignment.courseUuid);
+    const isUserOwner = course.ownerUuid === user.uuid;
 
-    if (course.organizationUuid !== user.organizationUuid) {
-      throw new Error("Unauthorized");
-    }
-
-    // Add student enrollment validation here.
-    if (user.type === "teacher" && course.ownerUuid !== user.uuid) {
+    if (user.type === "Teacher" && isUserOwner) {
       throw new Error("Unauthorized");
     }
 
@@ -132,28 +129,20 @@ export class AssignmentService {
       throw new Error("Course not found");
     }
 
-    if (course.organizationUuid !== user.organizationUuid) {
+    const isUserOwner = course.ownerUuid === user.uuid;
+
+    if (user.type === "Teacher" && !isUserOwner) {
       throw new Error("Unauthorized");
     }
-
-    if (user.type === "teacher" && course.ownerUuid !== user.uuid) {
-      throw new Error("Unauthorized");
-    }
-
-    // Add student enrollment validation here.
 
     return this.assignmentRepo.getByCourse(courseUuid);
   }
 
+  /*
   async getUnsubmitted(user: User): Promise<Assignment[]> {
-    if (user.type !== "student") {
+    if (user.type !== "Student") {
       throw new Error("Only students can use this operation");
     }
-
-    // 1. Get courses the student is enrolled in.
-    // 2. Get assignments from those courses.
-    // 3. Get the student's submissions.
-    // 4. Remove assignments that have submissions.
-    // 5. Return the remaining assignments.
   }
+  */
 }

@@ -1,3 +1,5 @@
+import { Attachment } from "./attachment";
+
 export class Assignment {
     constructor(
         public uuid: string,

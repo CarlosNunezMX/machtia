@@ -1,4 +1,5 @@
-import { CourseSchedule } from "./CourseSchedule.ts";
+import { CourseSchedule } from "./courseSchedule";
+
 export class Course {
 	constructor(
 	    public uuid: string,
