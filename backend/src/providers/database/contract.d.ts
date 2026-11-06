@@ -23,9 +23,9 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'179e6c99a189365be0d9c04211a2411a6dcfd01ed9476423be7a85bd557dfc16'>;
+  StorageHashBase<'80cb4ac1135e39d3cf2220a9baa1393461aa2bd01a6e1817e8e08e63e1a085e0'>;
 export type ExecutionHash =
-  ExecutionHashBase<'e278eb454eb967e0cece4aa5e543eb8f0cb4f1a1007981bb1efa44a493998956'>;
+  ExecutionHashBase<'9a754e8b46cdd1c39be6cdde176ee7adc11e757f2a23b34180e8a805bf8c48a3'>;
 export type ProfileHash =
   ProfileHashBase<'3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2'>;
 
@@ -373,6 +373,16 @@ export namespace Models {
     owner: public_User;
     readonly [RelationKeys]?: 'assignment' | 'attachments' | 'course' | 'owner';
   };
+  export type public_Transaction = {
+    createdAt: FieldOutputTypes['public']['Transaction']['createdAt'];
+    expiration: FieldOutputTypes['public']['Transaction']['expiration'];
+    state: FieldOutputTypes['public']['Transaction']['state'];
+    targetUuid: FieldOutputTypes['public']['Transaction']['targetUuid'];
+    type: FieldOutputTypes['public']['Transaction']['type'];
+    uuid: FieldOutputTypes['public']['Transaction']['uuid'];
+    user: public_User;
+    readonly [RelationKeys]?: 'user';
+  };
   export type public_User = {
     email: FieldOutputTypes['public']['User']['email'];
     name: FieldOutputTypes['public']['User']['name'];
@@ -385,7 +395,9 @@ export namespace Models {
     courses: public_Course[];
     enrolledCourses: public_CourseEnrollemnt[];
     submissions: public_Submission[];
-    readonly [RelationKeys]?: 'attachments' | 'courses' | 'enrolledCourses' | 'submissions';
+    transactions: public_Transaction[];
+    readonly [RelationKeys]?:
+      'attachments' | 'courses' | 'enrolledCourses' | 'submissions' | 'transactions';
   };
 }
 
@@ -396,6 +408,7 @@ export declare const models: {
     Course: Models.public_Course;
     CourseEnrollemnt: Models.public_CourseEnrollemnt;
     Submission: Models.public_Submission;
+    Transaction: Models.public_Transaction;
     User: Models.public_User;
   };
 };
@@ -864,6 +877,72 @@ type ContractBase = Omit<
                 },
               ];
             };
+            readonly Transaction: {
+              columns: {
+                readonly createdAt: {
+                  readonly dataType: 'pg/timestamptz';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly nullable: false;
+                  readonly typeParams: { readonly precision: 3 };
+                  readonly many: false;
+                };
+                readonly expiration: {
+                  readonly dataType: 'pg/timestamptz';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly nullable: true;
+                  readonly typeParams: { readonly precision: 3 };
+                  readonly many: false;
+                };
+                readonly state: {
+                  readonly dataType: 'pg/bool';
+                  readonly codecId: 'pg/bool@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly targetUuid: {
+                  readonly dataType: 'pg/uuid';
+                  readonly codecId: 'pg/uuid@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly type: {
+                  readonly dataType: 'pg/uuid';
+                  readonly codecId: 'pg/uuid@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly uuid: {
+                  readonly dataType: 'pg/uuid';
+                  readonly codecId: 'pg/uuid@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+              };
+              primaryKey: { readonly columns: readonly ['uuid'] };
+              uniques: readonly [{ readonly columns: readonly ['uuid'] }];
+              indexes: readonly [
+                {
+                  readonly name: 'Transaction_targetUuid_idx_52ab65c2';
+                  readonly prefix: 'Transaction_targetUuid_idx';
+                  readonly columns: readonly ['targetUuid'];
+                  readonly unique: false;
+                },
+              ];
+              foreignKeys: readonly [
+                {
+                  readonly source: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'Transaction';
+                    readonly columns: readonly ['targetUuid'];
+                  };
+                  readonly target: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'User';
+                    readonly columns: readonly ['uuid'];
+                  };
+                },
+              ];
+            };
             readonly User: {
               columns: {
                 readonly email: {
@@ -952,6 +1031,10 @@ type ContractBase = Omit<
     readonly Submission: {
       readonly namespace: 'public' & NamespaceId;
       readonly model: 'Submission';
+    };
+    readonly Transaction: {
+      readonly namespace: 'public' & NamespaceId;
+      readonly model: 'Transaction';
     };
     readonly User: { readonly namespace: 'public' & NamespaceId; readonly model: 'User' };
   };
@@ -1379,6 +1462,65 @@ type ContractBase = Omit<
               };
             };
           };
+          readonly Transaction: {
+            readonly fields: {
+              readonly createdAt: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly typeParams: { readonly precision: 3 };
+                };
+              };
+              readonly expiration: {
+                readonly nullable: true;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly typeParams: { readonly precision: 3 };
+                };
+              };
+              readonly state: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/bool@1' };
+              };
+              readonly targetUuid: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/uuid@1' };
+              };
+              readonly type: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/uuid@1' };
+              };
+              readonly uuid: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/uuid@1' };
+              };
+            };
+            readonly relations: {
+              readonly user: {
+                readonly to: { readonly namespace: 'public' & NamespaceId; readonly model: 'User' };
+                readonly cardinality: 'N:1';
+                readonly nullable: false;
+                readonly on: {
+                  readonly localFields: readonly ['targetUuid'];
+                  readonly targetFields: readonly ['uuid'];
+                };
+              };
+            };
+            readonly storage: {
+              readonly table: 'Transaction';
+              readonly namespaceId: 'public';
+              readonly fields: {
+                readonly createdAt: { readonly column: 'createdAt' };
+                readonly expiration: { readonly column: 'expiration' };
+                readonly state: { readonly column: 'state' };
+                readonly targetUuid: { readonly column: 'targetUuid' };
+                readonly type: { readonly column: 'type' };
+                readonly uuid: { readonly column: 'uuid' };
+              };
+            };
+          };
           readonly User: {
             readonly fields: {
               readonly email: {
@@ -1453,6 +1595,17 @@ type ContractBase = Omit<
                 readonly on: {
                   readonly localFields: readonly ['uuid'];
                   readonly targetFields: readonly ['ownerUuid'];
+                };
+              };
+              readonly transactions: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'Transaction';
+                };
+                readonly cardinality: '1:N';
+                readonly on: {
+                  readonly localFields: readonly ['uuid'];
+                  readonly targetFields: readonly ['targetUuid'];
                 };
               };
             };
@@ -1650,6 +1803,26 @@ type ContractBase = Omit<
           readonly onCreate: { readonly id: 'uuidv4'; readonly kind: 'generator' };
           readonly ref: {
             readonly entry: 'Submission';
+            readonly field: 'uuid';
+            readonly namespace: 'public';
+          };
+        },
+        {
+          readonly onCreate: {
+            readonly id: 'timestampNow';
+            readonly kind: 'generator';
+            readonly params: { readonly precision: 3 };
+          };
+          readonly ref: {
+            readonly entry: 'Transaction';
+            readonly field: 'createdAt';
+            readonly namespace: 'public';
+          };
+        },
+        {
+          readonly onCreate: { readonly id: 'uuidv4'; readonly kind: 'generator' };
+          readonly ref: {
+            readonly entry: 'Transaction';
             readonly field: 'uuid';
             readonly namespace: 'public';
           };

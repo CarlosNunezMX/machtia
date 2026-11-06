@@ -11,12 +11,29 @@ export const AuthModels = {
     }),
   }),
 
-  loginResponse: t.Object({
+  authSuccess: t.Object({
     token: t.String({ description: "Your session token", readOnly: true }),
     expiration: t.Number({ description: "Session Token expiration time (ms)" })
   }, { title: "Auth Sucess", description: "Returns the token with expiration details" }),
 
   signup: t.Object({
+    name: t.String({
+      description: "Student full name.",
+      readOnly: true
+    }),
+    email: t.String({
+      description: "Student schoolar email.",
+      readOnly: true,
+      format: "email"
+    }),
+    organizationId: t.Optional(t.String({
+      description: "Student organization internal ID (maybe used for grading)",
+      readOnly: true
+    })),
+    password: t.String({
+      description: "Student password",
+      readOnly: true
+    })
   })
 } as const;
 

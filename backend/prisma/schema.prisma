@@ -11,6 +11,7 @@ model User {
   courses         Course[]
   attachments     Attachment[]
   enrolledCourses CourseEnrollemnt[]
+  transactions Transaction[]
   submissions     Submission[]
 }
 
@@ -90,4 +91,16 @@ model Attachment {
 
   owner          User       @relation(fields: [ownerUuid], references: [uuid], onDelete: Cascade)
   submission     Submission @relation(fields: [submissionUuid], references: [uuid], onDelete: Cascade)
+}
+
+model Transaction {
+  uuid        Uuid @id @unique @onCreate(uuid())
+  targetUuid  Uuid
+
+  type        Uuid
+  expiration  DateTime?
+  createdAt   DateTime @onCreate(now()
+  state       Boolean
+
+  user        User @relation(fields: [targetUuid], references: [uuid], onDelete: Cascade)
 }

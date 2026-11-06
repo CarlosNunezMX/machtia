@@ -24,6 +24,10 @@
       "model": "Submission",
       "namespace": "public"
     },
+    "Transaction": {
+      "model": "Transaction",
+      "namespace": "public"
+    },
     "User": {
       "model": "User",
       "namespace": "public"
@@ -687,6 +691,100 @@
               "table": "Submission"
             }
           },
+          "Transaction": {
+            "fields": {
+              "createdAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 3
+                  }
+                }
+              },
+              "expiration": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 3
+                  }
+                }
+              },
+              "state": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/bool@1",
+                  "kind": "scalar"
+                }
+              },
+              "targetUuid": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/uuid@1",
+                  "kind": "scalar"
+                }
+              },
+              "type": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/uuid@1",
+                  "kind": "scalar"
+                }
+              },
+              "uuid": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/uuid@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "user": {
+                "cardinality": "N:1",
+                "nullable": false,
+                "on": {
+                  "localFields": [
+                    "targetUuid"
+                  ],
+                  "targetFields": [
+                    "uuid"
+                  ]
+                },
+                "to": {
+                  "model": "User",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "createdAt": {
+                  "column": "createdAt"
+                },
+                "expiration": {
+                  "column": "expiration"
+                },
+                "state": {
+                  "column": "state"
+                },
+                "targetUuid": {
+                  "column": "targetUuid"
+                },
+                "type": {
+                  "column": "type"
+                },
+                "uuid": {
+                  "column": "uuid"
+                }
+              },
+              "namespaceId": "public",
+              "table": "Transaction"
+            }
+          },
           "User": {
             "fields": {
               "email": {
@@ -797,6 +895,21 @@
                 },
                 "to": {
                   "model": "Submission",
+                  "namespace": "public"
+                }
+              },
+              "transactions": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "uuid"
+                  ],
+                  "targetFields": [
+                    "targetUuid"
+                  ]
+                },
+                "to": {
+                  "model": "Transaction",
                   "namespace": "public"
                 }
               }
@@ -1408,6 +1521,90 @@
                 }
               ]
             },
+            "Transaction": {
+              "columns": {
+                "createdAt": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "dataType": "pg/timestamptz",
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 3
+                  }
+                },
+                "expiration": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "dataType": "pg/timestamptz",
+                  "nullable": true,
+                  "typeParams": {
+                    "precision": 3
+                  }
+                },
+                "state": {
+                  "codecId": "pg/bool@1",
+                  "dataType": "pg/bool",
+                  "nullable": false
+                },
+                "targetUuid": {
+                  "codecId": "pg/uuid@1",
+                  "dataType": "pg/uuid",
+                  "nullable": false
+                },
+                "type": {
+                  "codecId": "pg/uuid@1",
+                  "dataType": "pg/uuid",
+                  "nullable": false
+                },
+                "uuid": {
+                  "codecId": "pg/uuid@1",
+                  "dataType": "pg/uuid",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "index": {
+                    "name": "Transaction_targetUuid_idx_52ab65c2"
+                  },
+                  "onDelete": "cascade",
+                  "source": {
+                    "columns": [
+                      "targetUuid"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "Transaction"
+                  },
+                  "target": {
+                    "columns": [
+                      "uuid"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "User"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "targetUuid"
+                  ],
+                  "name": "Transaction_targetUuid_idx_52ab65c2",
+                  "prefix": "Transaction_targetUuid_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "uuid"
+                ]
+              },
+              "uniques": [
+                {
+                  "columns": [
+                    "uuid"
+                  ]
+                }
+              ]
+            },
             "User": {
               "columns": {
                 "email": {
@@ -1480,10 +1677,10 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "179e6c99a189365be0d9c04211a2411a6dcfd01ed9476423be7a85bd557dfc16"
+    "storageHash": "80cb4ac1135e39d3cf2220a9baa1393461aa2bd01a6e1817e8e08e63e1a085e0"
   },
   "execution": {
-    "executionHash": "e278eb454eb967e0cece4aa5e543eb8f0cb4f1a1007981bb1efa44a493998956",
+    "executionHash": "9a754e8b46cdd1c39be6cdde176ee7adc11e757f2a23b34180e8a805bf8c48a3",
     "mutations": {
       "defaults": [
         {
@@ -1663,6 +1860,31 @@
           },
           "ref": {
             "entry": "Submission",
+            "field": "uuid",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "timestampNow",
+            "kind": "generator",
+            "params": {
+              "precision": 3
+            }
+          },
+          "ref": {
+            "entry": "Transaction",
+            "field": "createdAt",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "uuidv4",
+            "kind": "generator"
+          },
+          "ref": {
+            "entry": "Transaction",
             "field": "uuid",
             "namespace": "public"
           }
