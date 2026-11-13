@@ -1,4 +1,4 @@
-import { EnvironmentError } from "@/errors/environment.error";
+import { EnvironmentError } from "@errors/environment.error";
 import { S3Client } from "bun";
 import { BunS3Provider } from "./bucket.s3";
 

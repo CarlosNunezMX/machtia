@@ -1,4 +1,4 @@
-import TokenMissmatchError from "@/errors/auth/token";
+import TokenMissmatchError from "@errors/auth/token";
 import { Token, TokenType } from "@models/token";
 import { Transaction } from "@models/transaction";
 import { User } from "@models/user";

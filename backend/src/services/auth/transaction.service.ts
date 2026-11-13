@@ -1,4 +1,4 @@
-import { MaxAllowedTransactionError } from "@/errors/auth/transaction";
+import { MaxAllowedTransactionError } from "@errors/auth/transaction";
 import { ITransactionRepo } from "@infrastructure/auth/ITransactionRepo";
 import { IUserRepo } from "@infrastructure/user/IUserRepo";
 import { TokenType } from "@models/token";

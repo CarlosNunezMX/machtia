@@ -4,7 +4,7 @@ import { User } from "@models/user";
 import { PrismaRepo } from "../shared/PrismaRepo";
 import { ITransactionRepo } from "./ITransactionRepo";
 import { NotFoundError } from "elysia";
-import { BurnedTransactionError, ExpiratedTransaction, TransactionTypeMissmatch } from "@/errors/auth/transaction";
+import { BurnedTransactionError, ExpiratedTransaction, TransactionTypeMissmatch } from "@errors/auth/transaction";
 
 export class TransactionPrismaRepo
   extends PrismaRepo

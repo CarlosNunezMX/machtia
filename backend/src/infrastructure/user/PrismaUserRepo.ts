@@ -1,7 +1,7 @@
-import { User, UserType } from "@/models/user";
+import { User, UserType } from "@models/user";
 import { PrismaRepo } from "../shared/PrismaRepo";
 import { IUserRepo } from "./IUserRepo";
-import NotFoundError from "@/errors/NotFound";
+import NotFoundError from "@errors/NotFound";
 
 
 class PrismaUserRepo extends PrismaRepo implements IUserRepo {
