@@ -7,5 +7,6 @@ export class User {
     public readonly password: string,
     public readonly verified: boolean = false,
     public readonly type: UserType = "Student",
+    public readonly organizationId?: string
   ) {}
 }

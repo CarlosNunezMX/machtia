@@ -4,7 +4,7 @@ import { IUserRepo } from "./IUserRepo";
 import NotFoundError from "@/errors/NotFound";
 
 
-class PrismaUserRepo extends PrismaRepo implements IUserRepo {
+export class PrismaUserRepo extends PrismaRepo implements IUserRepo {
     async getByUuid(uuid: string): Promise<User> {
         const user = await this.client.orm.public.User
             .where({ uuid })
@@ -16,9 +16,9 @@ class PrismaUserRepo extends PrismaRepo implements IUserRepo {
             user.email,
             user.name,
             user.password,
-            user.organizationId || undefined,
             user.verified,
-            user.type as UserType
+            user.type as UserType,
+            user.organizationId || undefined,
         )
     }
 
@@ -37,9 +37,9 @@ class PrismaUserRepo extends PrismaRepo implements IUserRepo {
             user.email,
             user.name,
             user.password,
-            user.organizationId || undefined,
             user.verified,
-            user.type as UserType
+            user.type as UserType,
+            user.organizationId || undefined,
         )
     }
 
@@ -50,9 +50,9 @@ class PrismaUserRepo extends PrismaRepo implements IUserRepo {
             user.email,
             user.name,
             user.password,
-            user.organizationId || undefined,
             user.verified,
-            user.type as UserType
+            user.type as UserType,
+            user.organizationId || undefined,
         ))
     }
 
@@ -63,9 +63,9 @@ class PrismaUserRepo extends PrismaRepo implements IUserRepo {
             user.email,
             user.name,
             user.password,
-            user.organizationId || undefined,
             user.verified,
-            user.type as UserType
+            user.type as UserType,
+            user.organizationId || undefined,
         );
     }
 
@@ -76,9 +76,9 @@ class PrismaUserRepo extends PrismaRepo implements IUserRepo {
             user.email,
             user.name,
             user.password,
-            user.organizationId || undefined,
             user.verified,
-            user.type as UserType
+            user.type as UserType,
+            user.organizationId || undefined,
         ))
     }
 
@@ -90,9 +90,9 @@ class PrismaUserRepo extends PrismaRepo implements IUserRepo {
             user.email,
             user.name,
             user.password,
-            user.organizationId || undefined,
             user.verified,
-            user.type as UserType
+            user.type as UserType,
+            user.organizationId || undefined,
         )
     }
 }
