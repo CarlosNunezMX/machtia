@@ -16,7 +16,6 @@ class PrismaUserRepo extends PrismaRepo implements IUserRepo {
             user.email,
             user.name,
             user.password,
-            user.organizationId || undefined,
             user.verified,
             user.type as UserType
         )
@@ -37,7 +36,6 @@ class PrismaUserRepo extends PrismaRepo implements IUserRepo {
             user.email,
             user.name,
             user.password,
-            user.organizationId || undefined,
             user.verified,
             user.type as UserType
         )
@@ -50,7 +48,6 @@ class PrismaUserRepo extends PrismaRepo implements IUserRepo {
             user.email,
             user.name,
             user.password,
-            user.organizationId || undefined,
             user.verified,
             user.type as UserType
         ))
@@ -63,7 +60,6 @@ class PrismaUserRepo extends PrismaRepo implements IUserRepo {
             user.email,
             user.name,
             user.password,
-            user.organizationId || undefined,
             user.verified,
             user.type as UserType
         );
@@ -76,7 +72,6 @@ class PrismaUserRepo extends PrismaRepo implements IUserRepo {
             user.email,
             user.name,
             user.password,
-            user.organizationId || undefined,
             user.verified,
             user.type as UserType
         ))
@@ -90,7 +85,6 @@ class PrismaUserRepo extends PrismaRepo implements IUserRepo {
             user.email,
             user.name,
             user.password,
-            user.organizationId || undefined,
             user.verified,
             user.type as UserType
         )
