@@ -1,5 +1,5 @@
 import { MainRouter } from "@routers/router";
-import { Server } from "@/server";
+import { Server } from "@server";
 import Logger from "@logging";
 import Bucket from "@bucket";
 

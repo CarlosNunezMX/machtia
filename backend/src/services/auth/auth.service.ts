@@ -1,5 +1,5 @@
-import { AuthModels } from "@/dto/auth.model";
-import { PasswordMissmatchError } from "@/errors/auth/passwordMissmatch";
+import { AuthModels } from "@dto/auth.model";
+import { PasswordMissmatchError } from "@errors/auth/passwordMissmatch";
 
 import { SignedToken, JwtService } from "@services/auth/jwt.service";
 import { IUserRepo } from "@infrastructure/user/IUserRepo";

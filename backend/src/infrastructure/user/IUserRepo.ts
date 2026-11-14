@@ -1,4 +1,4 @@
-import { User } from "@/models/user";
+import { User } from "@models/user";
 
 type IUserRepo__ByRequest = Partial<Omit<User, "password">>;
 

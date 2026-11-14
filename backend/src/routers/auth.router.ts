@@ -1,4 +1,4 @@
-import { AuthModels } from "@/dto/auth.model";
+import { AuthModels } from "@dto/auth.model";
 import Elysia from "elysia";
 
 export const AuthRouter = new Elysia({ prefix: "/auth" })
