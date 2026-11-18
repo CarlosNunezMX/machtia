@@ -35,6 +35,7 @@
       "@models/*": ["./src/models/*"],
       "@infrastructure/*": ["./src/infrastructure/*"],
       "@services/*": ["./src/services/*"],
+      "@errors/*": ["./src/errors/*"],
       "@server/*": ["./src/*"],
       // root
       "@/*": ["./*"],

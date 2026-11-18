@@ -82,6 +82,7 @@ model Attachment {
   uuid           Uuid       @id @unique @onCreate(uuid())
   ownerUuid      Uuid
   submissionUuid Uuid
+  courseUuid     Uuid
 
   file           String
   name           String
