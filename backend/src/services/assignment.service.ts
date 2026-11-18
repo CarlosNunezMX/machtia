@@ -1,9 +1,10 @@
 // temporal routing
-import Logger from "../logging";
-import { Course } from "../models/course";
-import { User } from "../models/user";
-import { Assignment } from "../models/assignment";
-import { Attachment } from "../models/attachment";
+import Logger from "@logging";
+import { Course } from "@models/course";
+import { Course } from "@models/course";
+import { User } from "@models/user";
+import { Assignment } from "@models/assignment";
+import { Attachment } from "@models/attachment";
 
 // AI Slop detected?
 // @todo: Review this code and fix it

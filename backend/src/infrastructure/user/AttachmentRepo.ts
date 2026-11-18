@@ -1,19 +1,13 @@
 import { Attachment } from "@models/attachment";
-import { PrismaRepo } from "@infraestructure/shared/PrismaRepo";
+import { PrismaRepo } from "../shared/PrismaRepo";
+import { IAttachmentRepo } from "./IAttachmentRepo";
+import { NotFoundError } from "../../errors/NotFound";
 
 
 export class AttachmentRepo extends PrismaRepo implements IAttachmentRepo {
-	async create(body: Attachment, files: File): Promise<Attachment> {
-		const attachment = await this.client.orm.public.Attachment.create({ body });
-		return new Attachment(
-			uuid: attachment.uuid,
-			ownerUuid: attachment.ownerUuid,
-			courseUuid: attachment.courseUuid,
-			assignmentUuid: attachment.assignmentUuid,
-			file: attachment.file,
-			name: attachment.name,
-			mime: attachment.mime
-		);
+	async create(body: Attachment): Promise<Attachment> {
+		const attachment = await this.client.orm.public.Attachment.create(body);
+		return attachment;
 	}
 
 	async delete(uuid: string): Promise<void> {
@@ -21,21 +15,13 @@ export class AttachmentRepo extends PrismaRepo implements IAttachmentRepo {
 	}
 
 	async get(uuid: string): Promise<Attachment> {
-		const attachment = await this.client.orm.public.Attachment.where(uuid);
+		const attachment = this.client.orm.public.Attachment.where(uuid);
 
 		if(!attachment) {
 			throw new NotFoundError();
 		}
 
-		return new Attachment(
-			uuid: attachment.uuid,
-			ownerUuid: attachment.ownerUuid,
-			courseUuid: attachment.courseUuid,
-			assignmentUuid: attachment.assignmentUuid,
-			file: attachment.file,
-			name: attachment.name,
-			mime: attachment.mime
-		);
+		return attachment;
 	}
 
 
