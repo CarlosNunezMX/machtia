@@ -10,7 +10,7 @@ export const AttachmentRouter = new Elysia({ prefix: "/file" })
     await Bun.write(`.${savedPath}`, uploadedFile);
 
     const uploadAttachment: Attachment = {
-        uuid: "uuid placeholder",
+        uuid: crypto.randomUUID(),
         ownerUuid: ownerUuid,
         courseUuid: body.courseUuid,
         assignmentUuid: body.assignmentUuid,
@@ -20,4 +20,4 @@ export const AttachmentRouter = new Elysia({ prefix: "/file" })
     };
 
     return await attachmentRepo.create(body);
-  }
+  })
