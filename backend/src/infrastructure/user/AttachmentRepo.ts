@@ -15,7 +15,7 @@ export class AttachmentRepo extends PrismaRepo implements IAttachmentRepo {
 	}
 
 	async get(uuid: string): Promise<Attachment> {
-		const attachment = this.client.orm.public.Attachment.where(uuid);
+		const attachment = this.client.orm.public.Attachment.where({ uuid });
 
 		if(!attachment) {
 			throw new NotFoundError();

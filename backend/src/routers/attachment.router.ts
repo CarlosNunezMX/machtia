@@ -1,13 +1,13 @@
 import { Attachment } from "models/attachment";
+import { AttachmentRepo } from "../infrastructure/user/AttachmentRepo";
 import { AttachmentModels } from "../dto/attachment.model";
 import Elysia from "elysia";
 
 export const AttachmentRouter = new Elysia({ prefix: "/file" })
   .post("/attach", async ({ body, ownerUuid }) => {
-    const uploadedFile = body.file;
 
-    const savedPath = `/uploads/${Date.now()}-${uploadedFile.name}`;
-    await Bun.write(`.${savedPath}`, uploadedFile);
+    const savedPath = `/uploads/${Date.now()}-${body.file.name}`;
+    await Bun.write(`.${savedPath}`, body.file);
 
     const uploadAttachment: Attachment = {
         uuid: crypto.randomUUID(),
@@ -15,9 +15,9 @@ export const AttachmentRouter = new Elysia({ prefix: "/file" })
         courseUuid: body.courseUuid,
         assignmentUuid: body.assignmentUuid,
         file: savedPath,
-        name: uploadedFile.name,
-        mime: uploadedFile.type,
+        name: body.file.name,
+        mime: body.file.type,
     };
 
-    return await attachmentRepo.create(body);
+    return await attachmentRepo.create(uploadAttachment);
   })
