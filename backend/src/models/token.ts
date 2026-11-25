@@ -4,5 +4,5 @@ export class Token {
     public readonly type: TokenType,
     public readonly userUuid: string,
     public readonly jti?: string,
-  ) { }
+  ) {}
 }

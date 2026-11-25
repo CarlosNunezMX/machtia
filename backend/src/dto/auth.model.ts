@@ -11,6 +11,10 @@ export const AuthModels = {
     }),
   }),
 
+  authHeaders: t.Object({
+    authorization: t.String({ description: "Session token in Bearer format" })
+  }),
+
   authSuccess: t.Object(
     {
       token: t.String({ description: "Your session token", readOnly: true }),

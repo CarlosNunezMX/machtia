@@ -7,5 +7,6 @@ export class Attachment {
     public file: string,
     public name: string,
     public mime: string,
+    public createdAt?: Date,
   ) {}
 }

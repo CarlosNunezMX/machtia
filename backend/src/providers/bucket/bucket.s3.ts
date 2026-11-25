@@ -3,7 +3,7 @@ import { type BucketProvider } from "./bucket.provider";
 import { type S3Client } from "bun";
 
 export class BunS3Provider implements BucketProvider {
-  constructor(private readonly instance: S3Client) { }
+  constructor(private readonly instance: S3Client) {}
   private logger = new Logger({ name: "BunS3Provider", date: true });
   async write(path: string, content: Uint8Array): Promise<void> {
     const bucket_file = this.instance.file(path);

@@ -2,9 +2,7 @@
   "version": "8",
   "dialect": "postgres",
   "id": "4f0540d8-4029-4ba4-9558-c8863ba65592",
-  "prevIds": [
-    "00000000-0000-0000-0000-000000000000"
-  ],
+  "prevIds": ["00000000-0000-0000-0000-000000000000"],
   "ddl": [
     {
       "isRlsEnabled": false,
@@ -687,14 +685,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "courseUuid"
-      ],
+      "columns": ["courseUuid"],
       "schemaTo": "public",
       "tableTo": "Course",
-      "columnsTo": [
-        "uuid"
-      ],
+      "columnsTo": ["uuid"],
       "onUpdate": "NO ACTION",
       "onDelete": "CASCADE",
       "name": "Assignment_courseUuid_Course_uuid_fkey",
@@ -704,14 +698,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "ownerUuid"
-      ],
+      "columns": ["ownerUuid"],
       "schemaTo": "public",
       "tableTo": "User",
-      "columnsTo": [
-        "uuid"
-      ],
+      "columnsTo": ["uuid"],
       "onUpdate": "NO ACTION",
       "onDelete": "CASCADE",
       "name": "Attachment_ownerUuid_User_uuid_fkey",
@@ -721,14 +711,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "submissionUuid"
-      ],
+      "columns": ["submissionUuid"],
       "schemaTo": "public",
       "tableTo": "Submission",
-      "columnsTo": [
-        "uuid"
-      ],
+      "columnsTo": ["uuid"],
       "onUpdate": "NO ACTION",
       "onDelete": "CASCADE",
       "name": "Attachment_submissionUuid_Submission_uuid_fkey",
@@ -738,14 +724,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "userUuid"
-      ],
+      "columns": ["userUuid"],
       "schemaTo": "public",
       "tableTo": "User",
-      "columnsTo": [
-        "uuid"
-      ],
+      "columnsTo": ["uuid"],
       "onUpdate": "NO ACTION",
       "onDelete": "CASCADE",
       "name": "CourseEnrollemnt_userUuid_User_uuid_fkey",
@@ -755,14 +737,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "courseUuid"
-      ],
+      "columns": ["courseUuid"],
       "schemaTo": "public",
       "tableTo": "Course",
-      "columnsTo": [
-        "uuid"
-      ],
+      "columnsTo": ["uuid"],
       "onUpdate": "NO ACTION",
       "onDelete": "CASCADE",
       "name": "CourseEnrollemnt_courseUuid_Course_uuid_fkey",
@@ -772,14 +750,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "ownerUuid"
-      ],
+      "columns": ["ownerUuid"],
       "schemaTo": "public",
       "tableTo": "User",
-      "columnsTo": [
-        "uuid"
-      ],
+      "columnsTo": ["uuid"],
       "onUpdate": "NO ACTION",
       "onDelete": "CASCADE",
       "name": "Course_ownerUuid_User_uuid_fkey",
@@ -789,14 +763,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "ownerUuid"
-      ],
+      "columns": ["ownerUuid"],
       "schemaTo": "public",
       "tableTo": "User",
-      "columnsTo": [
-        "uuid"
-      ],
+      "columnsTo": ["uuid"],
       "onUpdate": "NO ACTION",
       "onDelete": "CASCADE",
       "name": "Submission_ownerUuid_User_uuid_fkey",
@@ -806,14 +776,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "courseUuid"
-      ],
+      "columns": ["courseUuid"],
       "schemaTo": "public",
       "tableTo": "Course",
-      "columnsTo": [
-        "uuid"
-      ],
+      "columnsTo": ["uuid"],
       "onUpdate": "NO ACTION",
       "onDelete": "CASCADE",
       "name": "Submission_courseUuid_Course_uuid_fkey",
@@ -823,14 +789,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "assignmentUuid"
-      ],
+      "columns": ["assignmentUuid"],
       "schemaTo": "public",
       "tableTo": "Assignment",
-      "columnsTo": [
-        "uuid"
-      ],
+      "columnsTo": ["uuid"],
       "onUpdate": "NO ACTION",
       "onDelete": "CASCADE",
       "name": "Submission_assignmentUuid_Assignment_uuid_fkey",
@@ -840,14 +802,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "targetUuid"
-      ],
+      "columns": ["targetUuid"],
       "schemaTo": "public",
       "tableTo": "User",
-      "columnsTo": [
-        "uuid"
-      ],
+      "columnsTo": ["uuid"],
       "onUpdate": "NO ACTION",
       "onDelete": "CASCADE",
       "name": "Transaction_targetUuid_User_uuid_fkey",
@@ -856,9 +814,7 @@
       "table": "Transaction"
     },
     {
-      "columns": [
-        "uuid"
-      ],
+      "columns": ["uuid"],
       "nameExplicit": false,
       "name": "Assignment_pkey",
       "schema": "public",
@@ -866,9 +822,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "uuid"
-      ],
+      "columns": ["uuid"],
       "nameExplicit": false,
       "name": "Attachment_pkey",
       "schema": "public",
@@ -876,9 +830,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "uuid"
-      ],
+      "columns": ["uuid"],
       "nameExplicit": false,
       "name": "CourseEnrollemnt_pkey",
       "schema": "public",
@@ -886,9 +838,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "uuid"
-      ],
+      "columns": ["uuid"],
       "nameExplicit": false,
       "name": "Course_pkey",
       "schema": "public",
@@ -896,9 +846,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "uuid"
-      ],
+      "columns": ["uuid"],
       "nameExplicit": false,
       "name": "Submission_pkey",
       "schema": "public",
@@ -906,9 +854,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "uuid"
-      ],
+      "columns": ["uuid"],
       "nameExplicit": false,
       "name": "Transaction_pkey",
       "schema": "public",
@@ -916,9 +862,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "uuid"
-      ],
+      "columns": ["uuid"],
       "nameExplicit": false,
       "name": "User_pkey",
       "schema": "public",
@@ -927,9 +871,7 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "email"
-      ],
+      "columns": ["email"],
       "nullsNotDistinct": false,
       "name": "User_email_key",
       "schema": "public",

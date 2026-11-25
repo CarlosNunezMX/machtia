@@ -4,6 +4,7 @@ import {
   pgTable,
   real,
   text,
+  time,
   timestamp,
   uuid,
   type PgTable,
@@ -41,6 +42,17 @@ export const assignmentTable = pgTable("Assignment", {
     .$onUpdate(() => new Date()),
 });
 
+export const scheduleTable = pgTable("Schedule", {
+  uuid: uuid("uuid").primaryKey().defaultRandom(),
+  courseUuid: uuid("courseUuid")
+    .notNull()
+    .references(() => courseTable.uuid, { onDelete: "cascade" }),
+  start: text("start").notNull(),
+  end: text("end").notNull(),
+  weekdays: text("weekdays").notNull(),
+  classroom: text("classroom").notNull(),
+});
+
 export const courseTable = pgTable("Course", {
   uuid: uuid("uuid").primaryKey().defaultRandom(),
   ownerUuid: uuid("ownerUuid")
@@ -48,8 +60,8 @@ export const courseTable = pgTable("Course", {
     .references(() => userTable.uuid, { onDelete: "cascade" }),
   name: text("name").notNull(),
   description: text("description").notNull(),
-  startDate: date("startDate").notNull(),
-  endDate: date("endDate").notNull(),
+  startDate: date("startDate", { mode: "date" }).notNull(),
+  endDate: date("endDate", { mode: "date" }).notNull(),
   createdAt: timestamp("createdAt", { withTimezone: true, precision: 3 })
     .notNull()
     .defaultNow(),
@@ -103,12 +115,15 @@ export const attachmentTable = pgTable("Attachment", {
   ownerUuid: uuid("ownerUuid")
     .notNull()
     .references(() => userTable.uuid, { onDelete: "cascade" }),
-  submissionUuid: uuid("submissionUuid")
-    .notNull()
-    .references(() => submissionTable.uuid, { onDelete: "cascade" }),
   file: text("file").notNull(),
   name: text("name").notNull(),
   mime: text("mime").notNull(),
+  courseUuid: uuid("courseUuid")
+    .notNull()
+    .references(() => courseTable.uuid, { onDelete: "cascade" }),
+  assignemntUuid: uuid("assignmentUuid")
+    .notNull()
+    .references(() => assignmentTable.uuid, { onDelete: "cascade" }),
   createdAt: timestamp("createdAt", { withTimezone: true, precision: 3 })
     .notNull()
     .defaultNow(),

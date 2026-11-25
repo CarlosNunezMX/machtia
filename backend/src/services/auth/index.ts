@@ -11,7 +11,7 @@ const preferences: JwtSettings = {
   issuer: "com.machtia",
 };
 
-const jwt = new JwtService(process.env["JWT_SECRET"]!, preferences);
+export const jwt = new JwtService(process.env["JWT_SECRET"]!, preferences);
 
 const transactionService = new TransactionService(
   UserRepo,

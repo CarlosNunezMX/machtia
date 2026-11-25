@@ -18,7 +18,7 @@ export class JwtService {
   constructor(
     private readonly secret: string,
     public readonly preferences: JwtSettings,
-  ) { }
+  ) {}
   sign(transaction: Transaction): SignedToken {
     const token = new Token(
       transaction.type,
@@ -38,7 +38,7 @@ export class JwtService {
     const _token = new Token("session", user.uuid);
     const expiration = this.preferences.expirations.session;
 
-    const token = sign({..._token}, this.secret, { expiresIn: expiration });
+    const token = sign({ ..._token }, this.secret, { expiresIn: expiration });
 
     return { expiration, token };
   }
