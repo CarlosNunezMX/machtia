@@ -35,12 +35,7 @@
       "@models/*": ["./src/models/*"],
       "@infrastructure/*": ["./src/infrastructure/*"],
       "@services/*": ["./src/services/*"],
-<<<<<<< HEAD
       "@dto/*": ["./src/dto/*"],
-=======
-      "@errors/*": ["./src/errors/*"],
-      "@server/*": ["./src/*"],
->>>>>>> b955f04c33a5483cd2e4855c1818cf877a1a716d
       // root
       "@/*": ["./*"],
       // mini packages
