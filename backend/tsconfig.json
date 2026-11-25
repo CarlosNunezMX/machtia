@@ -35,11 +35,13 @@
       "@models/*": ["./src/models/*"],
       "@infrastructure/*": ["./src/infrastructure/*"],
       "@services/*": ["./src/services/*"],
+      "@dto/*": ["./src/dto/*"],
       // root
       "@/*": ["./*"],
       // mini packages
       "@bucket": ["./src/providers/bucket/index.ts"],
       "@logging": ["./src/logging/index.ts"],
+      "@errors/*": ["./src/errors/*"]
     } /* Specify a set of entries that re-map imports to additional lookup locations. */,
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
     // "typeRoots": [],                                  /* Specify multiple folders that act like './node_modules/@types'. */
@@ -113,6 +115,6 @@
     /* Completeness */
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
     "skipLibCheck": true,
-    "resolveJsonModule": true /* Skip type checking all .d.ts files. */,
-  },
+    "resolveJsonModule": true /* Skip type checking all .d.ts files. */
+  }
 }

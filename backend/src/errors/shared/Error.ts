@@ -1,6 +1,6 @@
 export class HttpError extends Error {
   constructor(
-    public readonly httpCode: number,
+    public readonly status: number,
     public readonly response: string,
   ) {
     super(response);
@@ -8,7 +8,7 @@ export class HttpError extends Error {
 
   public toJSON() {
     return {
-      code: this.httpCode,
+      code: this.status,
     };
   }
 }

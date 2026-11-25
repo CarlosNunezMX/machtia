@@ -6,7 +6,7 @@ export class Server {
   constructor(
     private port: number,
     private application: Elysia,
-  ) { }
+  ) {}
 
   close() {
     this.logger.log("Graceful shutdown, closing server...");

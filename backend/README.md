@@ -28,7 +28,7 @@ docker compose -f compose.dev.yml # For Development
 - **(production mode)** The backend module is going to drop your admin credentials, take note of this.
 - When the bucket and database service is up, you need to browse to `:9001` and setup a bucket and an access key, then you need to fill
   the `backend.env` file with your access key and id, then down the containers and re-up with:
-- **(development mode)** Now you can start the development server with: `bun dev`, do not use `database` 
+- **(development mode)** Now you can start the development server with: `bun dev`, do not use `database`
   as your database host, change it to `localhost`
 
 ```sh

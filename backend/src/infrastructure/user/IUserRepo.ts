@@ -11,6 +11,6 @@ export interface IUserRepo {
   delete(uuid: string): Promise<void>;
   deleteMany(uuid: string[]): Promise<void>;
 
-  update(body: Partial<User> & {uuid: string}): Promise<User>;
+  update(body: Partial<User> & { uuid: string }): Promise<User>;
   create(body: User): Promise<User>;
 }

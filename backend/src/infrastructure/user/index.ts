@@ -1,4 +1,4 @@
-import { db } from "@providers/database"
-import { PrismaUserRepo } from "./PrismaUserRepo"
+import { db } from "@providers/database";
+import { DrizzleUserRepo } from "./DrizzleUserRepo";
 
-export const UserRepo = new PrismaUserRepo(db);
+export const UserRepo = new DrizzleUserRepo(db);

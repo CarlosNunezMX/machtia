@@ -1,4 +1,4 @@
 import { db } from "@providers/database";
-import { TransactionPrismaRepo } from "./PrismaTransactionRepo";
+import { TransactionDrizzleRepo } from "./DrizzleTransactionRepo";
 
-export const TransactionRepo = new TransactionPrismaRepo(db);
+export const TransactionRepo = new TransactionDrizzleRepo(db);

@@ -1,12 +1,11 @@
-import 'dotenv/config';
-import postgres from '@prisma/orm-postgres/runtime';
-import { contractFromJson } from '@prisma/orm-postgres/static';
-import type { Contract } from './contract';
-import contractJson from './contract.json' with { type: 'json' };
+import "dotenv/config";
+import { drizzle } from "drizzle-orm/bun-sql";
 
-export const contract = contractFromJson<Contract>(contractJson);
+const DATABASE_URL = process.env["DATABASE_URL"];
 
-export const db = postgres({
-  contract,
-  url: process.env['DATABASE_URL']!,
-});
+if (!DATABASE_URL)
+  throw new Error("You need to specify the DATABASE_URL environment variable.");
+
+export const db = drizzle(DATABASE_URL);
+
+export const gracefulShutdownDatabase = () => db.$client.close();

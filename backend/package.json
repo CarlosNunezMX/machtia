@@ -4,11 +4,14 @@
   "scripts": {
     "dev": "bun run --watch src/index.ts",
     "build": "bun build --compile --bytecode --minify --target bun --outfile build/www src/index.ts",
-    "contract:emit": "prisma contract emit"
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
+    "db:seed": "bun run src/providers/database/seed.ts"
   },
   "dependencies": {
     "@elysia/openapi": "^1.4.17",
-    "@prisma/orm-postgres": "^8.0.0-rc.22",
     "@types/jsonwebtoken": "^9.0.10",
     "add": "^2.0.9",
     "bun": "^1.4.4",
@@ -18,12 +21,10 @@
     "jsonwebtoken": "^9.0.3"
   },
   "devDependencies": {
-    "@prisma/cli-engine": "0.9.0",
     "@types/bun": "^1.4.4",
     "@types/node": "^26.6.6",
     "bun-types": "latest",
-    "drizzle-kit": "^1.0.0-rc.5-ab785fc",
-    "prisma": "^8.0.0-rc.30"
+    "drizzle-kit": "^1.0.0-rc.5-ab785fc"
   },
   "module": "src/index.js"
 }

@@ -1,7 +1,8 @@
 import { MainRouter } from "@routers/router";
-import { Server } from "@server";
+import { Server } from "./server";
 import Logger from "@logging";
 import Bucket from "@bucket";
+import { gracefulShutdownDatabase } from "@providers/database";
 
 // @ts-ignore
 const server = new Server(3000, MainRouter);
@@ -11,6 +12,7 @@ const onGraceful = async (event: string) => {
   server.close();
   logger.log("Graceful Shutdown, closing all connections...");
   await Bucket.gracefulShutdown();
+  await gracefulShutdownDatabase();
   logger.success("Graceful Shutdown, exited successfully!");
   process.exit(0);
 };

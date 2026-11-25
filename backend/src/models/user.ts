@@ -5,8 +5,7 @@ export class User {
     public readonly email: string,
     public readonly name: string,
     public readonly password: string,
-    public readonly verified: boolean = false,
     public readonly type: UserType = "Student",
-    public readonly organizationId?: string
+    public readonly organizationId?: string,
   ) {}
 }
