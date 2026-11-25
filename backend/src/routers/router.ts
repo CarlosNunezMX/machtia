@@ -5,7 +5,7 @@ import { HttpError } from "errors/shared/Error";
 
 export const MainRouter = new Elysia()
   .error({ HttpError })
-  .onError(({ code, error, status }) => {
+  .onError(({ error, status }) => {
     if (error instanceof HttpError) return status(error.status, error.message);
     console.log(error);
     return status(500, "Unknown error");
@@ -27,4 +27,3 @@ export const MainRouter = new Elysia()
       }),
     },
   )
-  .get("/", { hello: "world" });

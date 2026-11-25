@@ -1,4 +1,4 @@
-import { AuthModels } from "@dto/auth.model";
+import { AuthModels } from "../dto/auth.model";
 import Elysia from "elysia";
 import { authService } from "services/auth";
 
