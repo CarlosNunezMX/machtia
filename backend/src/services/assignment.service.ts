@@ -1,10 +1,9 @@
 // temporal routing
 import Logger from "@logging";
 import { Course } from "@models/course";
-import { Course } from "@models/course";
 import { User } from "@models/user";
 import { Assignment } from "@models/assignment";
-import { Attachment } from "@models/attachment";
+import { IAssignmentRepo } from "../infrastructure/user/IAssignmentRepo";
 
 // AI Slop detected?
 // @todo: Review this code and fix it
@@ -12,7 +11,6 @@ import { Attachment } from "@models/attachment";
 export class AssignmentService {
   constructor(
     private assignmentRepo: IAssignmentRepo,
-    private attachmentRepo: IAttachmentRepo,
     private courseRepo: ICourseRepo,
     private logger: Logger,
   ) {}
